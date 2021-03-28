@@ -1,4 +1,4 @@
-"""Home Assistant Python API."""
+"""Home Assistant Python API Client."""
 
-def temp():
-    print("Hello")
+# flake8: noqa
+from .client import Hass
