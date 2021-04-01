@@ -1,13 +1,15 @@
 """Class for basic API client functionality."""
 
+import json
 from typing import Dict, List, Optional, Union
 
 import requests
+
 from hassapi.exceptions import ClientError, get_error
 
 from .auth import AuthenticatedClient
 
-JsonResponseType = Union[Dict, List]
+JsonResponseType = Union[Dict, List, str]
 HassValueType = Union[int, float, str, bool]
 
 
@@ -36,11 +38,16 @@ class BaseClient(AuthenticatedClient):
         """Check if Home Assistant API is running."""
         return self._get("/")["message"] == "API running."  # type: ignore
 
-    def _get(self, endpoint: str) -> JsonResponseType:
+    def _get(
+        self, endpoint: str, params: Optional[Dict] = None, **kwargs: HassValueType
+    ) -> JsonResponseType:
         """Send GET request to HASS API `endpoint`."""
         return self._process_response(
             requests.get(
-                url=self._get_url(endpoint), headers=self._headers, timeout=self._timeout,
+                url=self._get_url(endpoint),
+                headers=self._headers,
+                timeout=self._timeout,
+                params={**(params or {}), **kwargs} or None
             )
         )
 
@@ -64,7 +71,10 @@ class BaseClient(AuthenticatedClient):
     def _process_response(self, response: requests.Response) -> JsonResponseType:  # type: ignore
         """Validate response status and return response dict if ok."""
         if response.ok:
-            return response.json()  # type: ignore
+            try:
+                return response.json()  # type: ignore
+            except json.JSONDecodeError:
+                return response.text
         else:
             self._raise_error(response.status_code, response.url)
 

@@ -54,7 +54,7 @@ class ServicesClient(BaseClient):
 
     def set_cover_position(self, entity_id: str, position: int) -> JsonResponseType:
         """Call 'set_cover_position' service for `entity_id`."""
-        return self.call_service("close_cover", entity_id=entity_id, position=position)
+        return self.call_service("set_cover_position", entity_id=entity_id, position=position)
 
     def run_script(self, script_id: str) -> JsonResponseType:
         """Run HASS-defined script."""
