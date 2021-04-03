@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import patch
 
 import pytest
+
 from hassapi.client.base import BaseClient
 from hassapi.exceptions import ClientError
 

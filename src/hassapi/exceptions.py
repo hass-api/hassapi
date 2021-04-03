@@ -64,4 +64,4 @@ _errors = {
 
 def get_error(status_code: int) -> HassapiBaseException:
     """Get error by HTTP response status code."""
-    return _errors.get(status_code, default=HassapiBaseException)  # type: ignore
+    return _errors.get(status_code, HassapiBaseException)  # type: ignore
