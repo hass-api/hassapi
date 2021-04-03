@@ -47,7 +47,7 @@ class BaseClient(AuthenticatedClient):
                 url=self._get_url(endpoint),
                 headers=self._headers,
                 timeout=self._timeout,
-                params={**(params or {}), **kwargs} or None
+                params={**(params or {}), **kwargs} or None,
             )
         )
 
