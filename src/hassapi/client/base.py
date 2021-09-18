@@ -36,7 +36,10 @@ class BaseClient(AuthenticatedClient):
 
     def _api_is_running(self) -> bool:
         """Check if Home Assistant API is running."""
-        return self._get("/")["message"] == "API running."  # type: ignore
+        try:
+            return self._get("/")["message"] == "API running."  # type: ignore
+        except requests.exceptions.ConnectionError:
+            return False
 
     def _get(
         self, endpoint: str, params: Optional[Dict] = None, **kwargs: HassValueType
