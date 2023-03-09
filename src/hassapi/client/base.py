@@ -9,6 +9,10 @@ from hassapi.exceptions import ClientError, get_error
 
 from .auth import AuthenticatedClient
 
+
+"""Uncomment the below if you don't want InsecureRequestWarning output when using verify=False"""
+# requests.packages.urllib3.disable_warnings()
+
 JsonResponseType = Union[Dict, List, str]
 HassValueType = Union[int, float, str, bool]
 
@@ -17,15 +21,16 @@ class BaseClient(AuthenticatedClient):
     """Class for basic API client functionality."""
 
     def __init__(
-        self, hassurl: Optional[str] = None, token: Optional[str] = None, timeout: float = 3
+        self, hassurl: Optional[str] = None, token: Optional[str] = None, verify: Optional[bool] = None, timeout: float = 3
     ):
         """Create Base Client object.
 
         Args:
             hassurl: Home Assistant url e.g. http://localhost:8123
             token: Home Assistant token
+            verify: True or False verify secure connection
         """
-        super().__init__(hassurl, token)
+        super().__init__(hassurl, token, verify)
         self._timeout = timeout
         self._assert_api_running()
 
@@ -51,6 +56,7 @@ class BaseClient(AuthenticatedClient):
                 headers=self._headers,
                 timeout=self._timeout,
                 params={**(params or {}), **kwargs} or None,
+                verify=self._verify,
             )
         )
 
@@ -64,6 +70,7 @@ class BaseClient(AuthenticatedClient):
                 headers=self._headers,
                 timeout=self._timeout,
                 json={**(json or {}), **kwargs} or None,
+                verify=self._verify,
             )
         )
 
