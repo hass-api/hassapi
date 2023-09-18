@@ -9,6 +9,9 @@ hass = Hass(hassurl="http://IP_ADDRESS:8123/", token="YOUR_HASS_TOKEN")
 
 hass.turn_on("light.bedroom_light")
 hass.run_script("good_morning")
+
+# If you want to bypass certificate verification. Default set to True
+hass = Hass(hassurl="http://IP_ADDRESS:8123/", token="YOUR_HASS_TOKEN", verify=False)
 ```
 ## Installation
 ```

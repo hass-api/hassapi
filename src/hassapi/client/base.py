@@ -17,15 +17,16 @@ class BaseClient(AuthenticatedClient):
     """Class for basic API client functionality."""
 
     def __init__(
-        self, hassurl: Optional[str] = None, token: Optional[str] = None, timeout: float = 3
+        self, hassurl: Optional[str] = None, token: Optional[str] = None, verify: bool = True, timeout: float = 3
     ):
         """Create Base Client object.
 
         Args:
             hassurl: Home Assistant url e.g. http://localhost:8123
             token: Home Assistant token
+            verify: True or False verify secure connection
         """
-        super().__init__(hassurl, token)
+        super().__init__(hassurl, token, verify)
         self._timeout = timeout
         self._assert_api_running()
 
@@ -51,6 +52,7 @@ class BaseClient(AuthenticatedClient):
                 headers=self._headers,
                 timeout=self._timeout,
                 params={**(params or {}), **kwargs} or None,
+                verify=self._verify,
             )
         )
 
@@ -64,6 +66,7 @@ class BaseClient(AuthenticatedClient):
                 headers=self._headers,
                 timeout=self._timeout,
                 json={**(json or {}), **kwargs} or None,
+                verify=self._verify,
             )
         )
 
