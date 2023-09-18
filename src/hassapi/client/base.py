@@ -11,13 +11,18 @@ from .auth import AuthenticatedClient
 
 JsonResponseType = Union[Dict, List, str]
 HassValueType = Union[int, float, str, bool]
+HassDictType = Dict[str, HassValueType]
 
 
 class BaseClient(AuthenticatedClient):
     """Class for basic API client functionality."""
 
     def __init__(
-        self, hassurl: Optional[str] = None, token: Optional[str] = None, verify: bool = True, timeout: float = 3
+        self,
+        hassurl: Optional[str] = None,
+        token: Optional[str] = None,
+        verify: bool = True,
+        timeout: float = 3,
     ):
         """Create Base Client object.
 
