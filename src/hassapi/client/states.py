@@ -1,8 +1,10 @@
 """Client for functionality related to HASS states."""
 
+from typing import Optional
+
 from hassapi.models import State, StateList
 
-from .base import BaseClient, HassValueType
+from .base import BaseClient, HassDictType, HassValueType
 
 
 class StatesClient(BaseClient):
@@ -12,7 +14,9 @@ class StatesClient(BaseClient):
         """Get ``entity_id`` state."""
         return State(**self._get(f"states/{entity_id}"))  # type: ignore
 
-    def set_state(self, entity_id: str, state: HassValueType, attributes: dict = None) -> State:
+    def set_state(
+        self, entity_id: str, state: HassValueType, attributes: Optional[HassDictType] = None
+    ) -> State:
         """Set ``entity_id`` state and optionally attributes."""
         if attributes:
             return State(**self._post(f"states/{entity_id}", state=state, attributes=attributes))  # type: ignore

@@ -8,7 +8,9 @@ from typing import Dict, Optional
 class AuthenticatedClient:
     """Class for HASS API authentication."""
 
-    def __init__(self, hassurl: Optional[str] = None, token: Optional[str] = None, verify: Optional[bool] = True):
+    def __init__(
+        self, hassurl: Optional[str] = None, token: Optional[str] = None, verify: bool = True
+    ):
         """Create Authenticated client."""
         self._url = self._resolve_api_url(hassurl or os.environ["HASS_URL"])
         self._headers = self._get_headers(token or os.environ["HASS_TOKEN"])
