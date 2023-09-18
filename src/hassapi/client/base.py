@@ -9,10 +9,6 @@ from hassapi.exceptions import ClientError, get_error
 
 from .auth import AuthenticatedClient
 
-
-"""With the below, when using verify=False, InsecureRequestWarning output will be removed"""
-requests.packages.urllib3.disable_warnings()
-
 JsonResponseType = Union[Dict, List, str]
 HassValueType = Union[int, float, str, bool]
 
