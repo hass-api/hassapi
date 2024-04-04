@@ -28,6 +28,7 @@ class State(Model):
     context: Context
     last_changed: datetime
     last_updated: Optional[datetime] = field(default=None)
+    last_reported: Optional[datetime] = field(default=None)
 
     def __post_init__(self) -> None:
         """Cast some attributes into more convenient types."""
@@ -35,6 +36,8 @@ class State(Model):
         self.last_changed = datetime.strptime(self.last_changed, DATE_FORMAT)  # type: ignore
         if self.last_updated:
             self.last_updated = datetime.strptime(self.last_updated, DATE_FORMAT)  # type: ignore
+        if self.last_reported:
+            self.last_reported = datetime.strptime(self.last_reported, DATE_FORMAT)  # type: ignore
 
 
 class StateList(ModelList):
