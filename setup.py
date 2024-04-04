@@ -12,7 +12,7 @@ def _get_release_version() -> None:
         subprocess.run(["git", "describe", "--tags"], stdout=subprocess.PIPE)
         .stdout.decode("utf-8")
         .strip()
-    )
+    ) or "0.0.0"
     print("VERSION: ", version)
     return version
 
