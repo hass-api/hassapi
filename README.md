@@ -6,7 +6,7 @@
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/hassapi?style=flat-square)](https://pypi.org/project/hassapi/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
 
-A Python client for the [Home Assistant REST API](https://developers.home-assistant.io/docs/api/rest).
+A Python client for the [Home Assistant REST API](https://developers.home-assistant.io/docs/api/rest) and [WebSocket API](https://developers.home-assistant.io/docs/api/websocket).
 
 ---
 
@@ -134,6 +134,42 @@ events: EventList = hass.get_events()
 hass.fire_event("MY_CUSTOM_EVENT")
 hass.fire_event("MY_CUSTOM_EVENT", event_data={"key": "value"})
 ```
+
+---
+
+### Real-time events (WebSocket)
+
+Subscriptions are non-blocking — they start a background thread and return immediately.
+
+```python
+import time
+
+def on_change(event):
+    data = event["data"]
+    print(data["entity_id"], data["old_state"]["state"], "->", data["new_state"]["state"])
+
+# Watch a specific entity for state changes
+hass.subscribe_to_state_changes(on_change, entity_id="light.living_room")
+
+# Watch all state changes
+hass.subscribe_to_state_changes(on_change)
+
+# Watch a specific event type
+hass.subscribe_to_events(on_change, event_type="call_service")
+
+# Watch all events
+hass.subscribe_to_events(on_change)
+
+# Keep the main thread alive while listening
+try:
+    while True:
+        time.sleep(1)
+except KeyboardInterrupt:
+    hass.unsubscribe()
+```
+
+The client reconnects automatically on dropped connections using exponential backoff,
+and gives up after 5 consecutive failures.
 
 ---
 

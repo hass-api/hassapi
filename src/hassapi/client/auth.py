@@ -11,8 +11,9 @@ class AuthenticatedClient:
         self, hassurl: Optional[str] = None, token: Optional[str] = None, verify: bool = True
     ):
         """Create Authenticated client."""
+        self._token = token or os.environ["HASS_TOKEN"]
         self._url = self._resolve_api_url(hassurl or os.environ["HASS_URL"])
-        self._headers = self._get_headers(token or os.environ["HASS_TOKEN"])
+        self._headers = self._get_headers(self._token)
         self._verify = verify
 
     def _resolve_api_url(self, hassurl: str) -> str:
