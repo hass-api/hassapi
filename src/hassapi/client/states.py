@@ -19,7 +19,11 @@ class StatesClient(BaseClient):
     ) -> State:
         """Set ``entity_id`` state and optionally attributes."""
         if attributes:
-            return State(**self._post(f"states/{entity_id}", state=state, attributes=attributes))  # type: ignore
+            return State(  # type: ignore
+                **self._post(
+                    f"states/{entity_id}", json={"state": state, "attributes": attributes}
+                )
+            )
         return State(**self._post(f"states/{entity_id}", state=state))  # type: ignore
 
     def get_states(self) -> StateList:

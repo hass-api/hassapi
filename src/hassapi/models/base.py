@@ -10,7 +10,8 @@ class Model:
     def __repr__(self) -> str:
         """Get object repr()."""
         name = type(self).__name__
-        return f"{name} with fields:\n" f"{_repr_dict(asdict(self))}"
+        fields = _repr_dict(asdict(self))  # type: ignore[call-overload]
+        return f"{name} with fields:\n{fields}"
 
 
 class ModelList(List):

@@ -92,4 +92,6 @@ class BaseClient(AuthenticatedClient):
     def _raise_error(self, status_code: int, url: str) -> None:
         """Raise custom error with description."""
         error = get_error(status_code)
-        raise error(f"{status_code} status code returned from {url}",)  # type: ignore
+        raise error(
+            f"{status_code} status code returned from {url}",
+        )  # type: ignore
