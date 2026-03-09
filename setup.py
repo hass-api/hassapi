@@ -24,14 +24,10 @@ def _get_release_version() -> str:
 def _write_version(version: str) -> None:
     """Write version to version.py."""
     with open("src/hassapi/version.py", "w") as file:
-        file.write(
-            textwrap.dedent(
-                f'''
+        file.write(textwrap.dedent(f'''
                 """Host package version, generated on build."""
                 __version__ = "{version}"
-                '''
-            ).lstrip()
-        )
+                ''').lstrip())
 
 
 version = _get_release_version()

@@ -1,6 +1,5 @@
 """Class for HASS API authentication."""
 
-
 import os
 from typing import Dict, Optional
 

@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 line-length = 99
 
 [tool.mypy]
-python_version = "3.8"
+python_version = "3.9"
 warn_redundant_casts = true
 warn_unused_ignores = true
 disallow_subclassing_any = false
